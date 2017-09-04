@@ -1,0 +1,26 @@
+%Cria uma sequencia que vai de 2 a 10
+indice=2:30;
+%cria uma variavel acessório a
+a=5;
+%calcula o primeiro valor de y analiticamente
+%y1 vai ter as informções das aproximações usando a equação 4
+y1(1)=log((1+a)/a);
+%y2 vai ter as informções das aproximações usando a equação 4
+y2(1)=log((1+a)/a);
+
+%encontra as aproximações numericamente, utilizando a equação 4
+for n = (indice-1)
+    somatorio=((-1)^n)*(a^n)*log(((1+a)/a));
+    for k = 0:(n-1)
+        somatorio=((-1)^k)*(a^k)*(factorial(n)/(factorial(k)*factorial(n-k)))*((1/(n-k))*((1+a)^(n-k)-a^(n-k)))+somatorio;
+    end
+    y1(n+1)=somatorio;
+end
+plot(y1)
+
+
+%encontra as aproximações numericamente, utilizando a equação 5
+for i = indice
+    y2(i)=(1/(i-1))-a*y(i-1);
+end      
+plot(y2)
