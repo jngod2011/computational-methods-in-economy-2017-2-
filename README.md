@@ -4,4 +4,4 @@ This desk maint to work as a repository from my homeworks and the final job for 
 The homeworks increase in difficult as long the dates pass.
 The final homework is a Monte Carlo simulation for pricing options.
 
-The comments are in brazilian portuguese.
+The comments are in brazilian portuguese of the documents
