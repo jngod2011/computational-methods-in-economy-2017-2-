@@ -1,0 +1,32 @@
+%load the dataset that contais the name and salary of 20 workers
+trabalhadores_20=importdata('');
+%alocate the names of the workers
+names=trabalhadores_20.textdata(2:21,1);
+%alocate the salary of the workers
+salary=trabalhadores_20.data;
+%set the total quantity of workers to N
+N=size(salary);
+N=N(1);
+
+%create a variable where i will alocate the salary of the annual adjustment
+%of the workers
+annual_adjustment=zeros(N,1);
+
+%calculate the annual adjustment
+for c = 1:N
+    if salary(c)<750
+    annual_adjustment(c)=salary(c)*0.2;
+    elseif salary(c)<1200
+    annual_adjustment(c)=salary(c)*0.15;
+    elseif salary(c)<2000
+    annual_adjustment(c)=salary(c)*0.10;
+    else
+    annual_adjustment(c)=0;
+end
+end
+
+%calculate the new salary
+new_salary=salary+annual_adjustment;
+
+%print worker names, old salary, adjustment, and the new salary
+Table = table(salary,annual_adjustment,new_salary,'RowNames',names)
