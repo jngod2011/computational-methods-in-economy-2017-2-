@@ -12,4 +12,13 @@ end
 aprox
 
 
+aprox=-3;
+funcao=0.1;
+derivada=0.1;
+while funcao~=0
+funcao=(exp(aprox)+aprox)/4-cos(aprox);
+derivada=(exp(aprox)+1)/4+sin(aprox);
+aprox=aprox-funcao/derivada;
+end
+aprox
 
