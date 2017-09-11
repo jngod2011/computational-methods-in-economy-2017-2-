@@ -11,11 +11,11 @@ while aprox~=valor_estimado
 end
 aprox
 
-
-aprox=-3;
+%%Segundo problema em sala
+aprox=-2;
 funcao=0.1;
 derivada=0.1;
-while funcao~=0
+while funcao>10^-6
 funcao=(exp(aprox)+aprox)/4-cos(aprox);
 derivada=(exp(aprox)+1)/4+sin(aprox);
 aprox=aprox-funcao/derivada;
