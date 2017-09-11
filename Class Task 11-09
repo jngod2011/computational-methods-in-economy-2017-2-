@@ -1,4 +1,4 @@
-%%%Reescrevendo a fórmular temos
+%%%Rewriting the formula we have something like
 %phi(x)=arccos(exp(x)+x)/a
 %The initial guess will be 0.74
 
@@ -10,5 +10,6 @@ while aprox~=valor_estimado
     aprox=valor_estimado;
 end
 aprox
+
 
 
