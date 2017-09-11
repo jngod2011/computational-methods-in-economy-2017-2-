@@ -1,0 +1,14 @@
+%%%Reescrevendo a fórmular temos
+%phi(x)=arccos(exp(x)+x)/a
+%The initial guess will be 0.74
+
+aprox=0.76;
+valor_estimado=acos((exp(aprox)+aprox)/4);
+erro=1;
+while aprox~=valor_estimado
+    valor_estimado=acos((exp(aprox)+aprox)/4);
+    aprox=valor_estimado;
+end
+aprox
+
+
