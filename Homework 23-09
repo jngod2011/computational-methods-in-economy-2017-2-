@@ -1,0 +1,200 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%Lista 3
+%%%%%%%%%%%%%%%%%%
+
+%Questão 1
+%letra a
+%rearranjando a equação como
+%x=sqrt(x^3+1)
+%chute inicial vai ser igual a 2 pois a derivada da 0.75
+%derivada:    (2*x-1)/((x-1)^2*x^2)
+%da alguns valores iniciais
+x=-0.5
+erro=1
+%encontra o resultado
+while abs(erro)>10^-3
+phi=sqrt(x^3+1)
+erro=x-phi
+x=phi
+end
+%teste o resultado
+syms x
+vpasolve(x^3 - x^2 + 1 == 0, x)
+
+%letra b
+%rearranjando a equação como
+%x=log2-logsen(x)
+%chute inicial vai ser igual a 1 pois a derivada da menor que 1
+%derivada:    1/2-1/sen(x)
+x=1
+erro=1
+%encontra o resultado
+while abs(erro)>10^-9
+phi=log(2)-log(sin(x))
+erro=x-phi
+x=phi
+end
+%teste o resultado
+2*exp(-x)-sin(x)
+%encontra o computacional
+syms x
+vpasolve(2*exp(-x)-sin(x) == 0, x)
+phi
+
+
+
+%%%%%Questão 2
+
+%%Letra a
+%cria umas variaveis auxiliares
+funcao=0.1;
+derivada=0.1;
+%cria o local onde eu vou armazenar as raizes
+raizes=zeros(10,1);
+%vou encontrar 10 estimativas diferentes das raizes
+for i=1:10;
+    %partindo de das valoers iniciais diferentes
+    aprox=randi([-100 100],1);
+    %enquanto a função for maior que 0
+    while funcao>10^-6;
+        %realiza o procedimento newton rapson
+        funcao=(exp(aprox)+aprox)/4-cos(aprox);
+        derivada=(exp(aprox)+1)/4+sin(aprox);
+        aprox=aprox-funcao/derivada;
+    end
+    %reseta o valor da função para um próximo loop
+    funcao=1;
+    %aloca a raiz encontrada em um vetor de raizes
+    raizes(i)=aprox;
+end
+%print o veto de raizes
+raizes
+%usa a função syms pra verificar os resultados
+syms x
+vpasolve((exp(x)+x)/4-cos(x) == 0, x)
+
+%%Letra b
+%cria umas variaveis auxiliares
+funcao=0.1;
+derivada=0.1;
+%cria o local onde eu vou armazenar as raizes
+raizes=zeros(10,1);
+%vou encontrar 10 estimativas diferentes das raizes
+for i=1:10;
+    %partindo de das valoers iniciais diferentes
+    aprox=randi([-100 100],1);
+    %enquanto a função for maior que 0
+    while funcao>10^-6;
+        %realiza o procedimento newton rapson
+        funcao=aprox*log(aprox)-0.8;
+        derivada=log(aprox)+1;
+        aprox=aprox-funcao/derivada;
+    end
+    %reseta o valor da função para um próximo loop
+    funcao=1;
+    %aloca a raiz encontrada em um vetor de raizes
+    raizes(i)=aprox;
+end
+%print o veto de raizes
+raizes
+%usa a função syms pra verificar os resultados
+syms x
+vpasolve(x*log(x)-0.8 == 0, x)
+
+%%%%Questão 5
+%%Letra a
+%cria umas variaveis auxiliares
+funcao=0.1;
+derivada=0.1;
+%cria o local onde eu vou armazenar as raizes
+raizes=zeros(10,1);
+%vou encontrar 10 estimativas diferentes das raizes
+for i=1:10;
+    %partindo de das valoers iniciais diferentes
+    aprox=randi([-100 100],1);
+    %enquanto a função for maior que 0
+    while funcao>10^-6;
+        %realiza o procedimento newton rapson
+        funcao=aprox^5-aprox-1;
+        derivada=5*(aprox^4)-1;
+        aprox=aprox-funcao/derivada;
+    end
+    %reseta o valor da função para um próximo loop
+    funcao=1;
+    %aloca a raiz encontrada em um vetor de raizes
+    raizes(i)=aprox;
+end
+%print o veto de raizes
+raizes
+%usa a função syms pra verificar os resultados
+syms x
+vpasolve(x^5-x-1 == 0, x)
+
+%%Letra b
+%cria umas variaveis auxiliares
+funcao=0.1;
+derivada=0.1;
+%cria o local onde eu vou armazenar as raizes
+raizes=zeros(10,1);
+%vou encontrar 10 estimativas diferentes das raizes
+for i=1:10;
+    %partindo de das valoers iniciais diferentes
+    aprox=randi([-100 100],1);
+    %enquanto a função for maior que 0
+    while funcao>10^-6;
+        %realiza o procedimento newton rapson
+        funcao=aprox^10-0.5*aprox^7+32*aprox^3-5*aprox^2-102
+        derivada=10*aprox^9-3.5*aprox^6+93*aprox^2-10*aprox-102;
+        aprox=aprox-funcao/derivada;
+    end
+    %reseta o valor da função para um próximo loop
+    funcao=1;
+    %aloca a raiz encontrada em um vetor de raizes
+    raizes(i)=aprox;
+end
+%print o veto de raizes
+raizes
+%usa a função syms pra verificar os resultados
+syms x
+vpasolve(x^10-0.5*x^7+32*x^3-5*x^2-102 == 0, x)
+
+%% Letra c
+
+%%Letra b
+%cria umas variaveis auxiliares
+funcao=0.1;
+derivada=0.1;
+%cria o local onde eu vou armazenar as raizes
+raizes=zeros(10,1);
+%vou encontrar 10 estimativas diferentes das raizes
+for i=1:10;
+    %partindo de das valoers iniciais diferentes
+    aprox= rand*2-1;
+    %enquanto a função for maior que 0
+    while funcao>10^-10;
+        %realiza o procedimento newton rapson
+        funcao=aprox^7+aprox^5-2*aprox^2-aprox+1;
+        derivada=7*aprox^6+5*aprox^4-4*aprox-1;
+        aprox=aprox-funcao/derivada;
+    end
+    %reseta o valor da função para um próximo loop
+    funcao=1;
+    %aloca a raiz encontrada em um vetor de raizes
+    raizes(i)=aprox;
+end
+%print o veto de raizes
+raizes
+%usa a função syms pra verificar os resultados
+syms x
+vpasolve(x^7+x^5-2*x^2-x+1 == 0, x)
+
+
+%Questão 6
+syms x
+%letra a
+vpasolve(x^4-x-5 == 0, x)
+%letra b
+vpasolve(x^4-2*x^3-4*x^2+4*x+4 == 0, x)
+%letra c
+vpasolve(x^4+7.64*x^3+23.604*x^2+38.910*x+38.149 == 0, x)
+
