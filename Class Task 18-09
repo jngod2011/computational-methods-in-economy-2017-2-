@@ -37,13 +37,12 @@ end
 
 
 
-
 tentativas=100;
 solucoes=randi([-20,20],1,tentativas);
 xanterior=1;
 xatual=-1;
 erro=1;
-i=1;
+
 
 for i=1:tentativas
     xanterior=solucoes(i);
