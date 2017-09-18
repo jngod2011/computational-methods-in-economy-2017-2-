@@ -34,3 +34,29 @@ while abs(erro)>10^-5
     x(i+1)=x(i)-((funcao/derivadaprimeira)/(1-derivadasegunda/derivadaprimeira));
     erro=x(i+1)-x(i);
 end
+
+
+
+
+tentativas=100;
+solucoes=randi([-20,20],1,tentativas);
+xanterior=1;
+xatual=-1;
+erro=1;
+i=1;
+
+for i=1:tentativas
+    xanterior=solucoes(i);
+    xatual=solucoes(i)-1;
+    erro=1;
+    while abs(erro)>10^-10
+        funcao_def=xanterior^3-2*xanterior^2+2*xanterior-5; 
+        funcao_atual=xatual^3-2*xatual^2+2*xatual-5;
+        temp=xatual;
+        xatual=(xanterior*funcao_atual-xatual*funcao_def)/(funcao_atual-funcao_def);
+        xanterior=temp;
+        erro=xatual-xanterior;
+    end
+    solucoes(i)=xatual;
+end
+solucoes
