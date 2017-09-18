@@ -1,0 +1,36 @@
+%secante
+
+xanterior=1;
+xatual=2;
+erro=1;
+i=1;
+
+while abs(erro)>10^-9
+    i=i+1;
+    funcao_def=xanterior^3-2*xanterior^2+2*xanterior-5; 
+    funcao_atual=xatual^3-2*xatual^2+2*xatual-5;
+    temp=xatual;
+    xatual=(xanterior*funcao_atual-xatual*funcao_def)/(funcao_atual-funcao_def);
+    xanterior=temp;
+    erro=xatual-xanterior;
+end
+
+xatual
+
+%newton rapson com multiplicidade
+
+
+x=1;
+x(1)=1;
+x(2)=2;
+erro=1;
+i=0;
+
+while abs(erro)>10^-5
+    i=i+1;
+    funcao=x(i)^8-x(i)^2-3; 
+    derivadaprimeira=8*x(i)^7-2*x(i);
+    derivadasegunda=56*x(i)^6-2;
+    x(i+1)=x(i)-((funcao/derivadaprimeira)/(1-derivadasegunda/derivadaprimeira));
+    erro=x(i+1)-x(i);
+end
