@@ -407,3 +407,13 @@ vpasolve(x^4-2*x^3-4*x^2+4*x+4 == 0, x)
 vpasolve(x^4+7.64*x^3+23.604*x^2+38.910*x+38.149 == 0, x)
 
 %Questão 7
+syms x1 x2 x3 x4
+assume(-2<x1<2);
+assume(-2<x2<2);
+assume(-2<x3<2);
+assume(-2<x4<2);
+S = vpasolve([-3*x1^4+16*x2^3+5*x3^2-4*x4-16 ==0, x1^3+x2^2+x3-3 == 0, x1^2-4*x2==0], [x1, x2, x3, x4]);
+X1=double(S.x1);
+X2=double(S.x2);
+X3=double(S.x3);
+X4=double(S.x4);
