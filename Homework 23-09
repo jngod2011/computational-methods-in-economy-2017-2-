@@ -274,7 +274,27 @@ vpasolve(log(z)+sqrt(z) == 0, z)
 
 %letra B
 %da uma olhada no gráfico da função
-fplot(@(x) x.^2+x.*exp(x)-cos(x),[-5 5]) 
+fplot(@(x) x.^2+x.*exp(x)-cos(x),[-5 5])
+
+erro=1;
+z=0.01;
+y=imag(z);
+x=real(z);
+i=1;
+erro=1;
+while abs(erro)>0.0000001
+    y=imag(z(i));
+    x=real(z(i));
+    u=x^2-y^2+x*exp(x)*cos(y)-y*exp(x)*sin(y)-exp(-y)*cos(x)/2-exp(y)*cos(x)/2;
+    v=2*x*y+x*exp(x)*sin(y)+y*exp(x)*cos(y)-exp(-y)*sin(x)/2-exp(y)*sin(x)/2;
+    ux=2*x+exp(x)*cos(y)+exp(x)*x*cos(y)-y*exp(x)*sin(y)+exp(-y)*sin(x)/2+exp(y)*sin(x)/2;
+    vx=2*y+exp(x)*sin(y)+x*exp(x)*sin(y)+y*exp(x)*cos(y)-exp(-y)*cos(x)/2-exp(y)*cos(x)/2;
+    z(i+1)=z(i)-(u+i*v)/(ux+i*vx);
+    erro=z(i+1)-z(i);
+    i=i+1;
+end
+z(i)
+plot(z)
 %usa a função vpa solve
 syms z
 vpasolve(z^2+z*exp(z)-cos(z) == 0, z)
