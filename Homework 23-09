@@ -5,43 +5,60 @@
 %Questão 1
 %letra a
 %rearranjando a equação como
-%x=sqrt(x^3+1)
-%chute inicial vai ser igual a 2 pois a derivada da 0.75
-%derivada:    (2*x-1)/((x-1)^2*x^2)
+%x=(x^2-1)^(1/3)
 %da alguns valores iniciais
-x=-0.5
-erro=1
+x=zeros(10,1);
 %encontra o resultado
-while abs(erro)>10^-3
-phi=sqrt(x^3+1)
-erro=x-phi
-x=phi
+for i=1:10
+    %coloca os valores iniciais
+    erro=1;
+    %define o i-ésimo chute inicial
+    x(i)=randi([-100;100]);
+    %enquanto eu estiver errando mais que 10^-3
+    while abs(erro)>10^-3
+        %executa o método da secante
+        phi=(x(i)^2-1)^(1/3);
+        erro=x(i)-phi;
+        x(i)=phi;
+    end
+    %guarda o resultado
+    x(i)=phi;
 end
-%teste o resultado
+%printa o resultado
+x
+%teste o resultado  utilizando a funcao vpasolve
 syms x
 vpasolve(x^3 - x^2 + 1 == 0, x)
 
 %letra b
 %rearranjando a equação como
 %x=log2-logsen(x)
-%chute inicial vai ser igual a 1 pois a derivada da menor que 1
-%derivada:    1/2-1/sen(x)
-x=1
-erro=1
-%encontra o resultado
-while abs(erro)>10^-9
-phi=log(2)-log(sin(x))
-erro=x-phi
-x=phi
+%cria o vetor pra guardar as raizes
+x=zeros(10,1);
+%condição inicial
+erro=1;
+%encontra o resultado para 10 resultados iniciais
+for i=1:10
+    %coloca as condiçõe iniciais em todos os loops
+    erro=1;
+    phi=0
+    %cada x iniciariá com um valor aleatório diferentes de -100 a 100
+    x(i)=randi([-1000,1000])
+    %aplica o método da secante a todos os valores iniciais
+    while abs(erro)>10^-9
+        %a função foi definida como x=log(2)-log(sen(x))
+        phi=log(2)-log(sin(x(i)));
+        %define o erro como a diferença de x e da função calculada
+        erro=x(i)-phi;
+        %define o novo x como o resultado da função
+        x(i)=phi;
+    end
 end
 %teste o resultado
 2*exp(-x)-sin(x)
-%encontra o computacional
+%encontra o resultado utilizando a função vpasolve
 syms x
 vpasolve(2*exp(-x)-sin(x) == 0, x)
-phi
-
-
 
 %%%%%Questão 2
 
@@ -53,12 +70,12 @@ derivada=0.1;
 raizes=zeros(10,1);
 %vou encontrar 10 estimativas diferentes das raizes
 for i=1:10;
-    %partindo de das valoers iniciais diferentes
+    %partindo de das valores iniciais diferentes
     aprox=randi([-100 100],1);
     %enquanto a função for maior que 0
-    while funcao>10^-6;
+    while abs(funcao)>10^-6;
         %realiza o procedimento newton rapson
-        funcao=(exp(aprox)+aprox)/4-cos(aprox);
+        funcao=((exp(aprox)+aprox)/4)-cos(aprox);
         derivada=(exp(aprox)+1)/4+sin(aprox);
         aprox=aprox-funcao/derivada;
     end
@@ -67,11 +84,11 @@ for i=1:10;
     %aloca a raiz encontrada em um vetor de raizes
     raizes(i)=aprox;
 end
-%print o veto de raizes
+%printa o vetor de raizes
 raizes
 %usa a função syms pra verificar os resultados
 syms x
-vpasolve((exp(x)+x)/4-cos(x) == 0, x)
+vpasolve((exp(x)+x)/4-cos(x) == 0,x, [0; 3])
 
 %%Letra b
 %cria umas variaveis auxiliares
@@ -182,12 +199,203 @@ for i=1:10;
     %aloca a raiz encontrada em um vetor de raizes
     raizes(i)=aprox;
 end
-%print o veto de raizes
+%print o vetor de raizes
 raizes
-%usa a função syms pra verificar os resultados
+%usa a função vpasolve pra verificar os resultados
 syms x
 vpasolve(x^7+x^5-2*x^2-x+1 == 0, x)
 
+%Questão 3
+%letra A
+%afirma quantos chutes iniciais eu vou dar
+tentativas=10;
+%cria um vetor onde eu vou alocar as solucoes
+solucoes=zeros(10,1);
+%cria o algoritmo de busca das soluções
+for i=1:tentativas
+    %pra cada loop reseta as condições iniciais do algoritmo
+    xanterior=randi([-100,100]);
+    xatual=xanterior-1;
+    erro=1;
+    %aplica o método da secante
+    while abs(erro)>10^-10
+        funcao_def=log(xanterior)+(xanterior+1)^3; 
+        funcao_atual=log(xatual)+(xatual+1)^3;
+        temp=xatual;
+        xatual=(xanterior*funcao_atual-xatual*funcao_def)/(funcao_atual-funcao_def);
+        xanterior=temp;
+        erro=xatual-xanterior;
+    end
+    solucoes(i)=xatual;
+end
+solucoes
+%testa pra ver se faz sentido
+log(solucoes)+(solucoes+1).^3
+%usa a função vpasolve pra verificar os resultados
+syms x
+vpasolve(log(x)+(x+1)^3 == 0, x)
+
+%letra B
+%afirma quantos chutes iniciais eu vou dar
+tentativas=10;
+%cria um vetor onde eu vou alocar as solucoes
+solucoes=zeros(10,1);
+%cria o algoritmo de busca das soluções
+for i=1:tentativas
+    %pra cada loop reseta as condições iniciais do algoritmo
+    xanterior=randi([-100,100]);
+    xatual=xanterior-1;
+    erro=1;
+    %aplica o método da secante
+    while abs(erro)~=0
+        funcao_def=xanterior^2-cos(xanterior); 
+        funcao_atual=xatual^2-cos(xatual);
+        temp=xatual;
+        xatual=(xanterior*funcao_atual-xatual*funcao_def)/(funcao_atual-funcao_def);
+        xanterior=temp;
+        erro=xatual-xanterior;
+    end
+    solucoes(i)=xatual;
+end
+solucoes
+%testa pra ver se faz sentido
+solucoes.^2-cos(solucoes)
+%usa a função vpasolve pra verificar os resultados
+syms x
+vpasolve(x^2-cos(x) == 0, x)
+
+%Questão 4
+%letra A
+%da uma olhada no gráfico da função
+fplot(@(x) log(x)+sqrt(x),[-5 5])
+%usa a função vpa solve
+syms z
+vpasolve(log(z)+sqrt(z) == 0, z)
+
+%letra B
+%da uma olhada no gráfico da função
+fplot(@(x) x.^2+x.*exp(x)-cos(x),[-5 5]) 
+%usa a função vpa solve
+syms z
+vpasolve(z^2+z*exp(z)-cos(z) == 0, z)
+
+%Questão 5
+%letra A
+%define o numero de tentativas
+N=10;
+for i=1:N
+    %coloca as condições iniciais
+    x0= randi([-50 50],1,1);
+    j=0;
+    x(1,1)=x0;
+    ERRO=11;
+    %aplica o metodo newton-raphson
+    while(ERRO>0.000001 && j~=1000)
+        f=x0^5-x0-1;
+        Df=5*x0^4-1;
+        diff=double(f/Df);
+        j=j+1;
+        %aloca cada resultado da conta num vetor pra depois poder analisar
+        %a trajetória
+        x(j,1+(i-1)*1)=x0;
+        x1=x0-diff;
+        ERRO=abs(x1-x0);
+        x0=x1;
+    end
+    j=1;
+    xR(1,i)=x0;
+end
+xR
+plot(x)
+%encontra os resultados pela funcao vpasolve
+syms x
+vpasolve(x^5-x-1 == 0, x)
+
+
+
+% letra B
+%define o numero de tentativas
+N=10;
+for i=1:N
+    %define as condições iniciais
+    x0= randi([-50 50],1,1);
+    %dessa vez guardaremos todas as iterações para depois verificar a
+    %trajetoria
+    j=0;
+    %o primeiro valor sera o aleatório gerado acima
+    x(1,1)=x0;
+    %set o erro inicial em 1
+    ERRO=1;
+    %realiza o loop até convergir ou em 100 iterações
+    while(ERRO>0.000001 && j~=1000)
+        %encontra o valor da funcao e da derivada
+        f=x0^10-0.5*x0^7+32*x0^3-5*x0^2-102;
+        Df=10*x0^9-3.5*x0^6+96*x0^2-10*x0;
+        diff=double(f/Df);
+        %aloca o novo valor calculado no vetor que está guardando a
+        %trajetoria
+        j=j+1;
+        x(j,1+(i-1)*1)=x0;
+        %encontra o novo x
+        x1=x0-diff;
+        %acha o erro nessa iteracao
+        ERRO=abs(x1-x0);
+        x0=x1;
+    end
+    %seta o j pro próximo loop
+    j=1;
+    %cria um vetor que vai guardar apenas as soluções finais chamdo xR
+    xR(1,i)=x0;
+end
+%da uma olhada em xR
+xR
+%da uma olhada na trajetória de convergencia
+plot(x)
+%verifica quais as raizes que o matlab calcularia
+syms x
+vpasolve(x^10-0.5*x^7+32*x^3-5*x^2-102 == 0, x)
+
+% letra C
+%define o numero de tentativas
+N=10;
+for i=1:N
+    %define as condições iniciais
+    x0= randi([-50 50],1,1);
+    %dessa vez guardaremos todas as iterações para depois verificar a
+    %trajetoria
+    j=0;
+    %o primeiro valor sera o aleatório gerado acima
+    x(1,1)=x0;
+    %set o erro inicial em 1
+    ERRO=1;
+    %realiza o loop até convergir ou em 100 iterações
+    while(ERRO>0.000001 && j~=1000)
+        %encontra o valor da funcao e da derivada
+        f=x0^7+x0^5-2*x0^2-x0+1;
+        Df=7*x0^6+5*x0^4-4*x0-1;
+        diff=double(f/Df);
+        %aloca o novo valor calculado no vetor que está guardando a
+        %trajetoria
+        j=j+1;
+        x(j,1+(i-1)*1)=x0;
+        %encontra o novo x
+        x1=x0-diff;
+        %acha o erro nessa iteracao
+        ERRO=abs(x1-x0);
+        x0=x1;
+    end
+    %seta o j pro próximo loop
+    j=1;
+    %cria um vetor que vai guardar apenas as soluções finais chamdo xR
+    xR(1,i)=x0;
+end
+%da uma olhada em xR
+xR
+%da uma olhada na trajetória de convergencia
+plot(x)
+%verifica quais as raizes que o matlab calcularia
+syms x
+vpasolve(x^7+x^5-2*x^2-x+1 == 0, x)
 
 %Questão 6
 syms x
@@ -198,3 +406,4 @@ vpasolve(x^4-2*x^3-4*x^2+4*x+4 == 0, x)
 %letra c
 vpasolve(x^4+7.64*x^3+23.604*x^2+38.910*x+38.149 == 0, x)
 
+%Questão 7
