@@ -1,0 +1,77 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%EXERCICIO DE SALA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Exercicio de Sala 1
+%Coloca os inputs
+x=[2.3 2.4 2.5 2.6]
+N=size(x);
+N=N(1,2);
+f=log10(x);
+xo=2.45;
+l=ones(N,1);
+p=ones(1);
+%Cria o Código
+%inicia a contagem para diferentes i e j
+for i=1:N
+    j=1:N;
+    %pede pra calcular o termo do produtório para todos os i diferentes de j
+    for j=j(j~=i)
+        %Calcula o produtório
+        l(i)=(xo-x(j))/(x(i)-x(j))*l(i);
+    end
+end
+%Acha a estimativa
+P=sum(f'.*l)
+%Acha o erro
+erro=P-log10(xo)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Execicio S
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+x=[2 2 5]
+f=log(x)
+%%%letra A
+%Como especificado no texto h é definido como h=(b-a)/n)
+%n é o numero de pontos, faremos o teste com 3 pontos que é o que temos
+n=3
+h=(5-2)/n
+%a quarta derivada da função logaritmo é
+f4=[-1]./(x.^4)
+%O erro conforme pág 31 do pdf é
+erro=max(abs(f4))*h./384
+%Podemos observar que o erro calculado não obedece a restrição de menor que
+%seja menor que 0.5*10^(-4)
+erro<0.5*10^(-4)
+
+%Encontra o valor adequado 
+N=0
+erro=1
+while erro>0.5*10^(-4)
+    N=N+1;
+    h=(5-2)/N;
+    %a quarta derivada da função logaritmo é
+    f4=[-1]./(x.^4);
+    %O erro conforme pág 31 do pdf é
+    erro=max(abs(f4))*h./384;
+end
+N
+%%Logo precisamos de no minimo 10 pontos para atingir o requisito de
+%%precisão
+
+%%Letra B
+%Não entendi muito bem essa questão para realizar um spline cubico
+%precisamos de no minimo 3 pontos e nesse exercicio só nos foi dado 2
+%potos, independentes.
+%Além disso para a função funcionar não pode haver pontos replicados, logo
+%utilizei os dois x originais x=[2 5] e adicionei 2 pontos x=[4 6]
+%Define o vetor de inputs
+%Define os dados conhecidos
+x=[2 4 5 6]
+f=log(x)
+%Valores a interpolar
+x_hat=[2 3]
+%Interpola os dados
+Vq=interp1(x,f,x_hat,'spline')
+%Define os erros
+erros=log(x_hat)-Vq
