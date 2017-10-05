@@ -1,0 +1,170 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%ATIVIDADE 08-10-2017
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%% EXERCICIO 1
+
+%Carrega os pontos
+pontos=[-3 1; -2 2; 1 -1; 3 10];
+tam_pol=4;
+%Ponto a ser interpolado
+interpolar=1.5;
+%Montra a matriz de interpolação
+x=[[1 1 1 1]' pontos(:,1) pontos(:,1).^2 pontos(:,1).^3];
+polinomio=inv(x)*pontos(:,2);
+%encontra a interpolação para o ponto desejado
+resultado=0;
+for i=1:tam_pol
+    resultado=resultado+polinomio(i)*interpolar.^(i-1);
+end
+
+
+%%%%%%%%%%%% EXERCICIO 2
+%Carrega os dados
+%letra a
+ano=1975:5:1990;
+EMM=[72.8 74.2 75.2 76.4];
+tam_pol=4;
+%encontra o polinomio interpolador
+x=[[1 1 1 1]' ano' ano'.^2 ano'.^3];
+polinomio=inv(x)*EMM';
+
+
+%letra b
+%Interpola pra 1982
+interpolar=1982;
+resultado=0;
+for i=1:tam_pol
+    resultado=resultado+polinomio(i)*interpolar.^(i-1);
+end
+resultado
+sprintf('A estimativa interpolada para 1995 é %0.5f',resultado)
+
+%interpola pra 1985
+interpolar=1995;
+resultado=0;
+for i=1:tam_pol
+    resultado=resultado+polinomio(i)*interpolar.^(i-1);
+end
+resultado
+sprintf('A estimativa interpolada para 1995 é %0.5f',resultado)
+
+%encontra o polinomio interpolador
+
+%Questão 3
+x=0:0.00001:pi;
+f=cos(x);
+%a quarta derivada da função cosseno é
+f4=cos(x);
+%Encontra o valor adequado 
+N=0;
+erro=1
+while erro>0.5*10^(-3)
+    N=N+1;
+    h=(pi-0)/N;
+    %a quarta derivada da função cosseno é
+    f4=cos(x);
+    %O erro conforme pág 31 do pdf é
+    erro=max(abs(f4))*h./384;
+end
+N;
+sprintf('logo precisaremos de %0.0f pontos',N)
+
+
+%Questão 4
+%Define o intervalo
+
+
+%Interpola pra um polinomio de segunda ordem
+interpolar=pi/8;
+pontos=[0 pi];
+f=cos(pontos);
+%Montra a matriz de interpolação
+x=[ones(size(pontos))' pontos'];
+polinomio=inv(x)*pontos(:,2);
+%encontra a interpolação para o ponto desejado
+tam_pol=2;
+resultado=0;
+for i=1:tam_pol
+    resultado=resultado+polinomio(i)*interpolar.^(i-1);
+end
+sprintf('a estimativa interpolada é %0.0f',resultado)
+sprintf('o erro absoluto é %0.0f',resultado-cos(interpolar))
+
+%Interpola pra um polinomio de segunda ordem
+interpolar=pi/8;
+pontos=[0 pi/3 2*pi/3 pi];
+f=cos(pontos);
+%Montra a matriz de interpolação
+x=[ones(size(pontos))' pontos' pontos'.^2 pontos'.^3];
+polinomio=inv(x)*pontos(:,2);
+%encontra a interpolação para o ponto desejado
+tam_pol=4;
+resultado=0;
+for i=1:tam_pol
+    resultado=resultado+polinomio(i)*interpolar.^(i-1);
+end
+sprintf('a estimativa interpolada é %0.0f',resultado)
+sprintf('o erro absoluto é %0.0f',resultado-cos(interpolar))
+
+%Questão 5
+x=[-2 1; -1 0; 1 -3; 4 8]
+%primeiro método por default o linear
+v1=interp1(x(:,1)',x(:,2)',0)
+%segundo método -next
+v1=interp1(x(:,1)',x(:,2)',0,'next')
+%tercerito método - spline
+v1=interp1(x(:,1)',x(:,2)',0,'spline')
+%quarto método - pchip
+v1=interp1(x(:,1)',x(:,2)',0,'pchip')
+%quinto método - previous
+v1=interp1(x(:,1)',x(:,2)',0,'previous')
+
+%Questão 6
+%vamos montar 10 varios polinomios interpoladores
+ordem_polinomio=3:10;
+interpolar=-pi/2:0.0001:pi/2;
+tamanho=size(interpolar);
+tamanho=tamanho(2);
+trajetoria=zeros(7,tamanho);
+
+for i=3:10
+    a = -pi/2;
+    b = pi/2;
+    pontos = (b-a).*rand(i,1) + a;
+    
+    %pontos=linspace(-pi/2,pi/2,i);
+    f=cos(pontos);
+    %Montra a matriz de interpolação
+    x=[ones(size(pontos))];
+
+    for j=2:i;
+        x=[x [pontos.^j]];
+    end
+    
+    polinomio=inv(x)*f;
+    %encontra a interpolação para o ponto desejado
+    tam_pol=i;
+    resultado=zeros(size(interpolar));
+    for m=1:tam_pol
+        trajetoria(i-2,:)=resultado+polinomio(i)*interpolar.^(i-1);
+    end
+end
+
+plot(trajetoria')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
