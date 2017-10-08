@@ -121,6 +121,7 @@ v1=interp1(x(:,1)',x(:,2)',0,'pchip')
 v1=interp1(x(:,1)',x(:,2)',0,'previous')
 
 %Questão 6
+figure
 %vamos montar varios polinomios interpoladores
 ordem_polinomio=3:10;
 interpolar=-pi/2:0.0001:pi/2;
@@ -153,24 +154,15 @@ end
 
 plot(trajetoria')
 
-%%%%%%%%5%%%%%%DEU RUIM
-%Questao 7
-%cria a base de dados
-k=4;
-x=pi/2;
-for i=1:k
-    x=[x i*pi/2];
-end
-%encontra a imagem da função
-f=cos(x)+sin(x)*0.1
-%define o espaço de interpolação
-interpolar=x(1):0.001:x(5);
 
-interpolacao_spline=spline(f,x);
-v1=interp1(x,f,interpolar)
+%Questão 7
+%No papel
 
+%Questão 8
+%No papel
 
 %Questão 9
+figure
 %vamos plotar a função verdadeira
 figure
 f = @(x) 1/(1+x.^2)
@@ -199,8 +191,38 @@ plot(xq,vq2,':.');
 %Bota um titulo
 title('Interpolações')
 
+%Questão 10
+figure
+x=linspace(-1,1)
+f=x.^3
+%pega o polinomio de hermite de primeira ordem
+primeira_ordem=hermiteH(1,x)
+%pega o polinomio de hermite de segunda ordem
+segunda_ordem=hermiteH(2,x)
+%plota
+plot(x,f)
+hold on
+plot(x,primeira_ordem)
+hold on
+plot(x,segunda_ordem)
+
+%Questão 11
+figure
+%O polinomio interpolador sera
+%H=S(cos(x)*(1-2*l¹i(x)(x_xi))-sen(x)*(x-xo)*l²i(x)
+%define a área que será usada para a interpolação
+x=linspace(0,pi/2)
+%define a função a ser interpolada
+f=cos(x)
+%interpola em pi/8
+primeiro_interpolado=pchip(x,f,pi/8)
+%define a funcao senoide
+f=sin(x)
+%interpola o seno
+segundo_interpolado=pchip(x,f,pi/8)
 
 %Questão 12
+figure
 %cria os pontos de x e y
 pointx=-1:2/20:1;
 pointy=sin(2*pi*pointx);
@@ -284,6 +306,7 @@ fplot(f,[-1,1])
 
 
 %Questão 13
+figure
 teste=1:8
 tensao=[0 0.06 0.14 0.25 0.31 0.47 0.60 0.70]
 deformacao=[0 0.08 0.14 0.2 0.23 0.25 0.28 0.29]
@@ -321,8 +344,6 @@ hold on
 spl=spline(tensao,deformacao,x)
 plot(x,spl)
 
-clear 
-clc
 %calcula a interpolacao pra 0.9
 x=0.9
 n=size(tensao,2);
