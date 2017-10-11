@@ -1,24 +1,24 @@
 %Questão 1
 
 %Cria uma matriz a ser decomposta
-linhas=20
+linhas=3
 matriz=rand(linhas)
 %pega o tamanho da matriz
 %cria o vetor resposta
 resposta=rand(linhas,1)
+resposta=[-2 1 3]'
 %junta tudo em uma matriz
-completa=[matriz resposta]
-[n k]=size(completa)
+gauss=[matriz resposta]
+[n k]=size(gauss)
 %monta o gabarito
 gabarito=inv(matriz)*resposta
-
 %para cada linha
 for i=1:n
     %descobre por quanto eu multiplico a linha de cima pra zerar a de baixo
     for g=1:(n-i)
-        fator=completa(i,i)\completa(i+g,i);
-        completa(i,:)=completa(i,:)*fator;
-        completa(i+g,:)=completa(i+g,:)-completa(i,:);
+        fator=gauss(i,i)\gauss(i+g,i);
+        gauss(i,:)=gauss(i,:)*fator;
+        gauss(i+g,:)=gauss(i+g,:)-gauss(i,:);
     end
 end
 
@@ -27,10 +27,47 @@ beta_gauss=zeros(1,n)
 for i=n:-1:1
     somatorio=0;
     for g=n:-1:1
-        somatorio=beta_gauss(g)*completa(i,g)+somatorio;
+        somatorio=beta_gauss(g)*gauss(i,g)+somatorio;
     end
-    beta_gauss(i)=(completa(i,k)-somatorio)/completa(i,i);
+    beta_gauss(i)=(gauss(i,k)-somatorio)/gauss(i,i);
 end
-completa
-beta_gauss
-gabarito
+beta_gauss=beta_gauss';
+table(gabarito,beta_gauss)
+
+
+%monta a fatoração LU
+%para cada linha
+n=size(matriz,1); 
+L=eye(n); 
+U=matriz;
+for j=1:n-1 
+    for i=j+1:n 
+        L(i,j    )=U(i,j)/U(j,j); 
+        U(i,j+1:n)=U(i,j+1:n)-L(i,j)*U(j,j+1:n); 
+        U(i,j    )=0 ;
+     end 
+end
+
+% obtem os betas
+Ly=[L resposta];
+y=zeros(1,n);
+for i=1:n
+    somatorio=0;
+    for g=1:n
+        somatorio=y(g)*Ly(i,g)+somatorio;
+    end
+    y(i)=(Ly(i,k)-somatorio)/Ly(i,i);
+end
+
+Ux=[U y'];
+betas_LU=zeros(1,n);
+for i=n:-1:1
+    somatorio=0;
+    for g=n:-1:1
+        somatorio=betas_LU(g)*Ux(i,g)+somatorio;
+    end
+    betas_LU(i)=(Ux(i,k)-somatorio)/Ux(i,i);
+end
+betas_LU=betas_LU';
+
+table(gabarito,betas_LU)
