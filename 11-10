@@ -1,16 +1,18 @@
-%Questão 1
+%Questão 1 
 
 %Cria uma matriz a ser decomposta
-linhas=20
-matriz=rand(linhas)
+linhas=4;
+%matriz=rand(linhas);
+matriz=[1 2 1 1;2 3 4 1;1 2 2 1;3 7 -1 -1]
+resposta=[2 6 2 -8]'
 %pega o tamanho da matriz
 %cria o vetor resposta
-resposta=rand(linhas,1)
+%resposta=rand(linhas,1);
 %junta tudo em uma matriz
-gauss=[matriz resposta]
-[n k]=size(gauss)
+gauss=[matriz resposta];
+[n k]=size(gauss);
 %monta o gabarito
-gabarito=inv(matriz)*resposta
+gabarito=inv(matriz)*resposta;
 %para cada linha
 for i=1:n
     %descobre por quanto eu multiplico a linha de cima pra zerar a de baixo
@@ -22,7 +24,7 @@ for i=1:n
 end
 
 % obtem os betas
-beta_gauss=zeros(1,n)
+beta_gauss=zeros(1,n);
 for i=n:-1:1
     somatorio=0;
     for g=n:-1:1
@@ -31,6 +33,8 @@ for i=n:-1:1
     beta_gauss(i)=(gauss(i,k)-somatorio)/gauss(i,i);
 end
 beta_gauss=beta_gauss';
+
+%Exercicio 2
 
 %monta a fatoração LU
 %para cada linha
@@ -68,3 +72,70 @@ end
 betas_LU=betas_LU';
 
 table(gabarito,beta_gauss,betas_LU)
+
+%Exercicio 3
+%Cria uma matriz a ser decomposta
+linhas=4;
+%matriz=rand(linhas);
+matriz=[1 1 3;2 2 2;3 6 4]
+%monta a fatoração LU
+%para cada linha
+n=size(matriz,1); 
+L=eye(n); 
+U=matriz;
+for j=1:n-1 
+    for i=j+1:n 
+        L(i,j)=U(i,j)/U(j,j); 
+        U(i,j+1:n)=U(i,j+1:n)-L(i,j)*U(j,j+1:n); 
+        U(i,j)=0 ;
+     end 
+end
+
+
+%Exercicio 4
+%Cria uma matriz a ser decomposta
+linhas=4;
+%matriz=rand(linhas);
+matriz=[1 2 1 1;2 3 4 1;1 2 2 1;3 7 -1 -1]
+resposta=[2 6 2 -8]'
+%monta o gabarito
+gabarito=inv(matriz)*resposta;
+
+
+%monta a fatoração LU
+%para cada linha
+n=size(matriz,1); 
+k=n+1
+L=eye(n); 
+U=matriz;
+for j=1:n-1 
+    for i=j+1:n 
+        L(i,j)=U(i,j)/U(j,j); 
+        U(i,j+1:n)=U(i,j+1:n)-L(i,j)*U(j,j+1:n); 
+        U(i,j)=0 ;
+     end 
+end
+
+% obtem os betas
+Ly=[L resposta];
+y=zeros(1,n);
+for i=1:n
+    somatorio=0;
+    for g=1:n
+        somatorio=y(g)*Ly(i,g)+somatorio;
+    end
+    y(i)=(Ly(i,k)-somatorio)/Ly(i,i);
+end
+
+Ux=[U y'];
+betas_LU=zeros(1,n);
+for i=n:-1:1
+    somatorio=0;
+    for g=n:-1:1
+        somatorio=betas_LU(g)*Ux(i,g)+somatorio;
+    end
+    betas_LU(i)=(Ux(i,k)-somatorio)/Ux(i,i);
+end
+betas_LU=betas_LU';
+
+table(gabarito,betas_LU)
