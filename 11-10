@@ -1,0 +1,36 @@
+%Questão 1
+
+%Cria uma matriz a ser decomposta
+linhas=20
+matriz=rand(linhas)
+%pega o tamanho da matriz
+%cria o vetor resposta
+resposta=rand(linhas,1)
+%junta tudo em uma matriz
+completa=[matriz resposta]
+[n k]=size(completa)
+%monta o gabarito
+gabarito=inv(matriz)*resposta
+
+%para cada linha
+for i=1:n
+    %descobre por quanto eu multiplico a linha de cima pra zerar a de baixo
+    for g=1:(n-i)
+        fator=completa(i,i)\completa(i+g,i);
+        completa(i,:)=completa(i,:)*fator;
+        completa(i+g,:)=completa(i+g,:)-completa(i,:);
+    end
+end
+
+% obtem os betas
+beta=zeros(1,n)
+for i=n:-1:1
+    somatorio=0;
+    for g=n:-1:1
+        somatorio=beta(g)*completa(i,g)+somatorio;
+    end
+    beta(i)=(completa(i,k)-somatorio)/completa(i,i);
+end
+completa
+beta
+gabarito
