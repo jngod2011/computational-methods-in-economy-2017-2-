@@ -1,0 +1,37 @@
+%Seja o problema A*x=b
+n=3
+A=rand(n)
+b=rand(1,n)'
+%defnie o chute inicial
+x=[ones(n,1)]*2;
+erro=20000;
+j=1;
+
+
+%Método de Richer
+while abs(erro)>0.1
+    x(:,j+1)=x(:,j)-A*x(:,j)+b;
+    erro=norm((x(:,j+1)-x(:,j)))/norm(x(:,j));
+    j=1+j;
+end
+
+%decompoe o A
+L=tril(A)
+U=triu(A)
+D = diag(diag(A))
+
+%Método de Jacobi
+while abs(erro)>1
+    x(:,j+1)=-inv(D)*L*x(:,j)-inv(D)*U*x(:,j)+inv(D)*b;
+    erro=norm((x(:,j+1)-x(:,j)))/norm(x(:,j));
+    j=1+j;
+end
+plot(x')
+
+%Método de Gauss Seidel
+while abs(erro)>1
+    x(:,j+1)=-inv(D+L)*U*x(:,j)+inv(D+L)*b;
+    erro=norm((x(:,j+1)-x(:,j)))/norm(x(:,j));
+    j=1+j;
+end
+plot(x')
