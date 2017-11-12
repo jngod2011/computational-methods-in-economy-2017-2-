@@ -201,3 +201,27 @@ Q4=quadgk(F,-2,3)
 %imprime todas elas
 table(Q1,Q2,Q3,Q4)
 %Podemos ver que as estimativas diferem pouquissimo
+
+%%%Questão 6
+%letra a
+F = @(x,y)2*y.*sin(x)+cos(x).^2
+c=@(x)sin(x)
+d=@(x)cos(x)
+Q1=quad2d(F,0,pi/4,c,d)
+
+
+%letra b
+F = @(x,y)(x.^2+y.^3)
+c=@(x)2*x
+d=@(x)x
+Q1=quad2d(F,0,1,c,d)
+
+%letra c
+F = @(x,y)(y.^2+x.^3)
+c=@(x)2*x
+d=@(x)x
+Q1=quad2d(F,0,1,c,d)
+
+%letra d
+F = @(x,y)(x.^2.*y-x.*y.^2)
+Q1=quad2d(F,-1,1,-1,1)
