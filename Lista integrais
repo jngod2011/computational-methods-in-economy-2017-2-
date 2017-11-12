@@ -1,0 +1,203 @@
+format LONG
+
+
+%Questão 1
+
+%primeiro exercicio
+% a integral dessa função é igual a 0.19375
+gabarito=0.19375
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(0.5,1)
+y=x.^4
+Q1=trapz(x,y)
+erro_trapezio=Q1-gabarito
+%Vamos realizar o método de simpson
+F = @(x)x.^4
+Q2 = quad(F,0.5,1,10^-8);
+erro_simpson=Q2-gabarito
+%será que o erro de simpson é menor?
+erro_simpson<erro_trapezio
+%SIIIIM
+
+%segundo exercicio
+% a integral dessa função é aproximadamente 0.1606
+gabarito=0.1606
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(0,1)
+y=(x.^2).*exp(-x)
+Q1=trapz(x,y)
+erro_trapezio=Q1-gabarito
+%Vamos realizar o método de simpson
+F = @(x)(x.^2).*exp(-x)
+Q2 = quad(F,0,1,10^-8);
+erro_simpson=Q2-gabarito
+%será que o erro de simpson é menor?
+erro_simpson<erro_trapezio
+%SIIIIM
+
+%segundo exercicio
+% a integral dessa função é aproximadamente 0.1606
+gabarito=0.1606
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(0,1)
+y=(x.^2).*exp(-x)
+Q1=trapz(x,y)
+erro_trapezio=Q1-gabarito
+%Vamos realizar o método de simpson
+F = @(x)(x.^2).*exp(-x)
+Q2 = quad(F,0,1,10^-8);
+erro_simpson=Q2-gabarito
+%será que o erro de simpson é menor?
+erro_simpson<erro_trapezio
+%SIIIIM
+
+%terceiro exercicio
+% a integral dessa função é aproximadamente 0.1606
+gabarito=-0.733969
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(1,1.6)
+y=(2*x)./(x.^2-4)
+Q1=trapz(x,y)
+erro_trapezio=Q1-gabarito
+%Vamos realizar o método de simpson
+F = @(x)(2*x)./(x.^2-4)
+Q2 = quad(F,1,1.6,10^-8);
+erro_simpson=Q2-gabarito
+%será que o erro de simpson é menor?
+erro_simpson<erro_trapezio
+%NÃÃÃÃÃÃO
+
+
+
+%quarto exercicio
+% a integral dessa função é aproximadamente 0.1606
+gabarito=2.5886
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(0,pi/4)
+y=exp(3.*x).*sin(2.*x)
+Q1=trapz(x,y)
+erro_trapezio=Q1-gabarito
+%Vamos realizar o método de simpson
+F = @(x)exp(3.*x).*sin(2.*x)
+Q2 = quad(F,0,pi/4,10^-8);
+erro_simpson=Q2-gabarito
+%será que o erro de simpson é menor?
+erro_simpson<erro_trapezio
+%SIIIIIIM
+
+
+%quinto exercicio
+% a integral dessa função é aproximadamente 0.1606
+gabarito=4.6667
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(1,4)
+y=sqrt(x)
+Q1=trapz(x,y)
+erro_trapezio=Q1-gabarito
+%Vamos realizar o método de simpson
+F = @(x)exp(3.*x).*sin(2.*x)
+Q2 = quad(F,0,pi/4,10^-8);
+erro_simpson=Q2-gabarito
+%será que o erro de simpson é menor?
+erro_simpson<erro_trapezio
+%SIIIIIIM
+
+%sexta exercicio
+% a integral dessa função é aproximadamente 0.1606
+gabarito=0.946083
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(0,1)
+y=sin(x)./x
+Q1=trapz(x,y)
+erro_trapezio=Q1-gabarito
+%Vamos realizar o método de simpson
+F = @(x)sin(x)./x
+Q2 = quad(F,0,1,10^-8);
+erro_simpson=Q2-gabarito
+%será que o erro de simpson é menor?
+erro_simpson<erro_trapezio
+%SIIIIIIM
+
+
+%Questao 2
+sigma=1
+x=linspace(-sigma,sigma)
+y=(1./(sigma.*sqrt(2.*pi)))*exp(-((x./sigma).^2)./2)
+Q1=trapz(x,y)
+
+%Questão 3
+x=[1 2 3 4]
+f=[0.7 0.8 1.5 3.4]
+Q1=trapz(x,f)
+
+%Questão 4
+dias=[0 6 10 22 48 48.5 49 59 69 79]
+taxa=[0 44.2 73 60.5 49.5 42.5 39 44.5 58 61.5]
+producao=cumtrapz(dias,taxa)
+%
+dias=dias'
+producao_acumulada=producao'
+%monta uma tabela
+table(dias,producao_acumulada)
+
+%Questao 5
+%letra a
+
+F = @(x)atan(x./2)./(4+x.^2)
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(0,3*pi)
+y=atan(x./2)./(4+x.^2)
+Q1=trapz(x,y)
+
+%Vamos realizar o método de simpson
+F = @(x)atan(x./2)./(4+x.^2)
+Q2 = quad(F,0,3*pi)
+%vamos aprozimar pela quadratura de lobato
+Q3 = quadl(F,0,3*pi)
+%vamos aproximara pela quadratura adaptativa flobal de alta ordem
+Q4=quadgk(F,0,3*pi)
+%imprime todas elas
+table(Q1,Q2,Q3,Q4)
+%a enor estimativa é da trapezoidal, depois temos a quad, quadl e quadgk
+%por ordem de crescencia
+
+%letra b
+
+F = @(x) tan(x./2).^3.*sec(x./2)
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(0,5*pi)
+y=tan(x./2).^3.*sec(x./2)
+Q1=trapz(x,y)
+
+%Vamos realizar o método de simpson
+F = @(x)tan(x./2).^3.*sec(x./2)
+Q2 = quad(F,0,5.*pi)
+%vamos aprozimar pela quadratura de lobato
+Q3 = quadl(F,0,5.*pi)
+%vamos aproximara pela quadratura adaptativa flobal de alta ordem
+Q4=quadgk(F,0,5.*pi)
+%imprime todas elas
+table(Q1,Q2,Q3,Q4)
+%esses valores ficaram pessimos um não tem nada a ver com o outro
+
+
+
+%letra c
+
+
+%vamos  fazer primeiro o método dos trapézios
+x=linspace(-2,3)
+y=(sqrt(exp(x)+1).*exp(atan(x))+log((x.^2+1).^(sqrt(x.^2.*exp(x)-x.^2)))+sqrt(exp(x)-1)./sqrt(x.^2+1).*sqrt(exp(x)+x.^2.*exp(x)-x.^2-1))
+Q1=trapz(x,y)
+
+%Vamos realizar o método de simpson
+F = @(x)(sqrt(exp(x)+1).*exp(atan(x))+log((x.^2+1).^(sqrt(x.^2.*exp(x)-x.^2)))+sqrt(exp(x)-1)./sqrt(x.^2+1).*sqrt(exp(x)+x.^2.*exp(x)-x.^2-1))
+
+Q2 = quad(F,-2,3)
+%vamos aprozimar pela quadratura de lobato
+Q3 = quadl(F,-2,3)
+%vamos aproximara pela quadratura adaptativa flobal de alta ordem
+Q4=quadgk(F,-2,3)
+%imprime todas elas
+table(Q1,Q2,Q3,Q4)
+%Podemos ver que as estimativas diferem pouquissimo
